@@ -8,4 +8,11 @@ query{ me {
 }}
 `;
 
-export { USER_ME }
+
+const USER_LOGIN = gql`
+query login($username:String!,$password:String!)
+{ login (username: $username,password: $password){
+  id, name, email, token
+}}`;
+
+export { USER_ME, USER_LOGIN }

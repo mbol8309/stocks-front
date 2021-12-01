@@ -1,27 +1,35 @@
 import { ApolloClient, ApolloLink, HttpLink, InMemoryCache } from "@apollo/client";
+import { RetryLink } from '@apollo/client/link/retry';
+import { setContext } from '@apollo/client/link/context';
 
-const BACK_URL = 'http://localhost:8000/graphql';
+const AUTHENTICATED_URL = 'http://localhost:8000/graphql';
+const LOGIN_URL = 'http://localhost:8000/graphql/login';
 
-const httpLink = new HttpLink({ uri: BACK_URL });
+const httpLink = new HttpLink({ uri: AUTHENTICATED_URL });
+const loginLink = new HttpLink({ uri: LOGIN_URL });
 
-const authLink = new ApolloLink((operation, forward) => {
-    // Retrieve the authorization token from local storage.
+const authLink = setContext((_, { headers }) => {
+    // get the authentication token from local storage if it exists
     const token = localStorage.getItem('token');
-
-    // Use the setContext method to set the HTTP headers.
-    if (token) {
-        operation.setContext({
-            headers: {
-                authorization: `Bearer ${token}`
-            }
-        });
+    // return the headers to the context so httpLink can read them
+    return {
+      headers: {
+        ...headers,
+        authorization: token ? `Bearer ${token}` : "",
+      }
     }
+  });
 
-    // Call the next link in the middleware chain.
-    return forward(operation);
-});
+const directionalLink = new RetryLink().split(
+    (operation) => {
+        console.log(operation);
+        return Object.keys(operation.variables).includes('username') 
+        && Object.keys(operation.variables).includes('password')},
+    loginLink,
+    authLink.concat(httpLink),
+  );
 
 export const apollo_client = new ApolloClient({
-    link: authLink.concat(httpLink),
+    link: directionalLink,
     cache: new InMemoryCache()
 });
