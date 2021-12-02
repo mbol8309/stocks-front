@@ -3,14 +3,14 @@ import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
 //import { store } from './app/store';
-import { apollo_client } from './app/apollo';
+import { apollo_auth_client } from './app/apollo';
 //import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
   <React.StrictMode>
-    <ApolloProvider client={apollo_client} >
+    <ApolloProvider client={apollo_auth_client} >
       <App />
     </ApolloProvider>
   </React.StrictMode>,

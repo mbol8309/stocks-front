@@ -20,16 +20,24 @@ const authLink = setContext((_, { headers }) => {
     }
   });
 
-const directionalLink = new RetryLink().split(
+/*const directionalLink = new RetryLink().split(
     (operation) => {
         console.log(operation);
         return Object.keys(operation.variables).includes('username') 
         && Object.keys(operation.variables).includes('password')},
     loginLink,
     authLink.concat(httpLink),
-  );
+  );*/
+const cache = new InMemoryCache();
 
-export const apollo_client = new ApolloClient({
-    link: directionalLink,
-    cache: new InMemoryCache()
+const apollo_auth_client = new ApolloClient({
+    link: authLink.concat(httpLink),
+    cache: cache
 });
+
+const apollo_nauth_client = new ApolloClient({
+  link: loginLink,
+  cache: cache
+});
+
+export { apollo_auth_client, apollo_nauth_client }

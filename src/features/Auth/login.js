@@ -8,6 +8,7 @@ import { BackgroundGrid } from "../../components/BackgroundGrid"
 import { TextInputs } from "../../components/TextInputs"
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab"
+import { apollo_nauth_client}  from '../../app/apollo'
 
 const LoginPage = (props) => {
 
@@ -15,7 +16,7 @@ const LoginPage = (props) => {
     const [setLogin,{ error : loginErrors, data, loading : loginLoading, refetch}] = useLazyQuery(USER_LOGIN,{
         displayName:'login',
         fetchPolicy:'network-only',
-        operationName:'login'
+        client:apollo_nauth_client
     })
 
     const onSubmit = (data) => {
