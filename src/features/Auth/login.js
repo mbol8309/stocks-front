@@ -1,23 +1,15 @@
-import { useLazyQuery, useQuery } from "@apollo/client"
 import { Alert, Grid, TextField } from "@mui/material"
 import { Box } from "@mui/system"
-import { USER_LOGIN, USER_ME } from "./AuthAPI"
-import { styled } from "@mui/system"
-import { blue } from "@mui/material/colors"
+import { useLogin } from "./AuthAPI"
 import { BackgroundGrid } from "../../components/BackgroundGrid"
 import { TextInputs } from "../../components/TextInputs"
 import { useForm } from "react-hook-form";
 import { LoadingButton } from "@mui/lab"
-import { apollo_nauth_client}  from '../../app/apollo'
 
 const LoginPage = (props) => {
 
     const { register, handleSubmit, formState: { errors } } = useForm();
-    const [setLogin,{ error : loginErrors, data, loading : loginLoading, refetch}] = useLazyQuery(USER_LOGIN,{
-        displayName:'login',
-        fetchPolicy:'network-only',
-        client:apollo_nauth_client
-    })
+    const [setLogin, { error : loginErrors, loading : loginLoading }] = useLogin('/')
 
     const onSubmit = (data) => {
         setLogin({variables:data})
@@ -47,7 +39,6 @@ const LoginPage = (props) => {
                             type='password'
                             {...register("password")}
                         />
-                        {errors.password && <span>This field is required</span>}
                     </Box>
                     <Box m='auto' alignContent='center' alignItems='center'>
                         <LoadingButton loading={loginLoading} type='submit' variant="outlined">

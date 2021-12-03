@@ -1,12 +1,13 @@
 import { useQuery } from "@apollo/client"
-import { USER_ME } from "./AuthAPI"
+import { USER_ME, useUserMe } from "./AuthAPI"
 import { Navigate } from 'react-router-dom';
 import StockBackDrop from "../../components/StockBackDrop";
 
 const Authenticated = (props) => {
     //const { children } = props
 
-    const { loading, error, data } = useQuery(USER_ME)
+    const { loading, error, data } = useUserMe(USER_ME)
+    
 
     if (loading) return (
         <StockBackDrop/>

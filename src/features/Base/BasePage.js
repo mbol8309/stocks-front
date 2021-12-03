@@ -1,7 +1,15 @@
+import { useUserMe } from "../Auth/AuthAPI";
 
 const BasePage = (props) => {
+
+    const {data} = useUserMe()
+
+
     return(
-        'base page'
+        <>
+        <p>Name: {data.me.name}</p>
+        <p>Email: {data.me.email}</p>
+        </>
     )
 }
 
