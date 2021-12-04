@@ -1,6 +1,8 @@
 import { gql, useMutation, useQuery } from '@apollo/client';
 import { apollo_nauth_client } from '../../app/apollo';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Navigate } from 'react-router-dom';
+
+
 
 //------------Me
 const USER_ME = gql`
@@ -9,8 +11,12 @@ query{ me {
 }}
 `;
 
-const useUserMe = () => {
-  return useQuery(USER_ME);
+const useUserMe = (onError, onCompleted) => {
+  const navigate = useNavigate();
+  return useQuery(USER_ME, {
+    onCompleted: onCompleted ? onCompleted : undefined,
+    onError: onError ? onError : () => { navigate('/login') }
+  });
 }
 
 
@@ -22,20 +28,49 @@ mutation login($username:String!,$password:String!)
   id, name, email, token
 }}`;
 
-//const [setLogin, { error : loginErrors, data, loading : loginLoading, reset: loginReset}] = useMutation(USER_LOGIN,{
-const useLogin = (redirect, onError=null) => {
-  
-  const navigate = useNavigate()
-  
-  return useMutation(USER_LOGIN,{
+const useLogin = (redirect, onError = null) => {
 
-  client:apollo_nauth_client,
-  onCompleted:({login})=>{
-      localStorage.setItem('token',login.token);
+  const navigate = useNavigate()
+
+  return useMutation(USER_LOGIN, {
+    update(cache,{data: { login }}){
+      cache.writeQuery({query: USER_ME,data: {me:login}});
+    },
+    client: apollo_nauth_client,
+    onCompleted: ({ login }) => {
+      localStorage.setItem('token', login.token);
       navigate(redirect);
-  },
-  onError: onError ? onError : (error)=>console.error(error)
-})
+    },
+    onError: onError ? onError : (error) => console.error(error)
+  })
 };
 
-export { USER_ME, USER_LOGIN, useLogin,useUserMe }
+//-----------------------Register
+const USER_REGISTER = gql`
+mutation registerUser($name:String!, $email:String!,$password:String!,$password_confirmation:String!){
+  registerUser(name:$name, email: $email, password: $password, password_confirmation:$password_confirmation){
+    id name email token
+  }
+}
+`;
+
+const useRegisterUser = (onError) => {
+  const navigate = useNavigate()
+  return useMutation(USER_REGISTER, {
+    client: apollo_nauth_client,
+    update(cache,{data: { registerUser }}){
+      cache.writeQuery({query: USER_ME,data: {me:registerUser}});
+    },
+    onCompleted: ({ registerUser }) => {
+      localStorage.setItem('token', registerUser.token);
+      navigate('/');
+    },
+    onError: onError ? onError : (error) => console.error(error)
+  })
+}
+
+
+
+
+
+export { USER_ME, USER_LOGIN, useLogin, useUserMe, useRegisterUser }

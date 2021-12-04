@@ -6,11 +6,16 @@ import StockBackDrop from "../../components/StockBackDrop";
 const Authenticated = (props) => {
     //const { children } = props
 
-    const { loading, error, data } = useUserMe(USER_ME)
-    
+
+    const handleError = (error) => {
+        return (<Navigate to="/login" />)
+    }
+
+    const { loading, error, data} = useUserMe(handleError)
+
 
     if (loading) return (
-        <StockBackDrop/>
+        <StockBackDrop />
     );
     if (error?.networkError?.statusCode == 401) { //unauthenticated
         return (<Navigate to="/login" />)
