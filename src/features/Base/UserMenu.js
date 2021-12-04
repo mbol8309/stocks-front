@@ -1,11 +1,13 @@
 import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/material"
 import { Box } from "@mui/system"
 import React from "react";
+import { useTranslation } from "react-i18next";
 import {useNavigate} from 'react-router-dom';
+
 
 const user_menu_items = [
     {   
-        title: 'Profile',
+        title: 'menu.profile',
         icon: null,
         url: '/profile',
     },
@@ -13,6 +15,11 @@ const user_menu_items = [
         title: 'Dashboard',
         icon: null,
         url: '/dashboard',
+    },
+    {   
+        title: 'Settings',
+        icon: null,
+        url: '/settings',
     },
     {   
         title: 'Logout',
@@ -25,6 +32,8 @@ const UserMenu = (props) => {
     const { user } = props
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
+
+    const { t } = useTranslation('main')
 
     const handleOpenUserMenu = (event) => {
         setAnchorElUser(event.currentTarget);
@@ -64,7 +73,7 @@ const UserMenu = (props) => {
             >
                 { user_menu_items.map((item) => (
                     <MenuItem key={item.title} onClick={() => handleRedirect(item.url)}>
-                        <Typography textAlign="center">{item.title}</Typography>
+                        <Typography textAlign="center">{t(item.title)}</Typography>
                     </MenuItem>
                 ))}
             </Menu>

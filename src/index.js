@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import App from './App';
@@ -7,11 +7,14 @@ import { apollo_auth_client } from './app/apollo';
 //import { Provider } from 'react-redux';
 import { ApolloProvider } from '@apollo/client';
 import * as serviceWorker from './serviceWorker';
+import './i18n';
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apollo_auth_client} >
-      <App />
+      <Suspense fallback={null}>
+        <App />
+      </Suspense>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')
