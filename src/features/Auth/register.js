@@ -20,6 +20,10 @@ const RegisterPage = (props) => {
     const onSubmit = (data) => {
         setRegisterUser({ variables: data })
     }
+    
+    const handleRedirectLogin =()=>{
+        navigate('/login')
+    }
 
     const inputs = [
         {
@@ -50,11 +54,17 @@ const RegisterPage = (props) => {
         }
     ];
 
+
     const actions = [
         {
-            item: <LoadingButton loading={registerLoading} type="submit">
+            item: <LoadingButton loading={registerLoading} type="submit" variant="outlined" color='primary'>
                 {'Register'}
             </LoadingButton>
+        },
+        {
+            item: <Button onClick={handleRedirectLogin} color='secondary'>
+                {'Login'}
+            </Button>
         }
     ]
 

@@ -42,12 +42,12 @@ const LoginPage = (props) => {
 
     const actions = [
         {
-            item: <LoadingButton loading={false} type='submit' variant="outlined">
+            item: <LoadingButton loading={false} type='submit' variant="outlined" color='primary'>
                 {'Login'}
             </LoadingButton>
         },
         {
-            item: <Button onClick={handleRegister}>
+            item: <Button onClick={handleRegister} color='secondary'>
                 {'Register'}
             </Button>
         }
