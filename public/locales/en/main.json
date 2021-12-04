@@ -3,6 +3,13 @@
     "profile": "Profile"
   },
   "menu": {
-    "profile": "Profile"
+    "profile": "Profile",
+    "dashboard": "Dashboard",
+    "settings": "Settings",
+    "logout": "Logout",
+    "lang": {
+      "es": "Spanish",
+      "en": "English"
+    }
   }
 }

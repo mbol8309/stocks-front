@@ -2,33 +2,25 @@ import { Avatar, IconButton, Menu, MenuItem, Tooltip, Typography } from "@mui/ma
 import { Box } from "@mui/system"
 import React from "react";
 import { useTranslation } from "react-i18next";
-import {useNavigate} from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import i18n from "../../i18n";
+import ReactCountryFlag from "react-country-flag"
 
 
-const user_menu_items = [
-    {   
-        title: 'menu.profile',
-        icon: null,
-        url: '/profile',
+const lang_menu_items = [
+    {
+        title: 'menu.lang.es',
+        icon: <ReactCountryFlag countryCode="ES" />,
+        onClick: () => i18n.changeLanguage('es')
     },
-    {   
-        title: 'menu.dashboard',
-        icon: null,
-        url: '/dashboard',
-    },
-    {   
-        title: 'menu.settings',
-        icon: null,
-        url: '/settings',
-    },
-    {   
-        title: 'menu.logout',
-        icon: null,
-        url: '/logout',
+    {
+        title: 'menu.lang.en',
+        icon: <ReactCountryFlag countryCode="US" />,
+        onClick: () => i18n.changeLanguage('en')
     },
 ]
 
-const UserMenu = (props) => {
+const LocaleMenu = (props) => {
     const { user } = props
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
@@ -47,12 +39,24 @@ const UserMenu = (props) => {
     const handleRedirect = (url) => {
         navigate(url);
     }
+    const localeToCountry = (lang) => {
+        let _l = {
+            en:'US',
+            es:'ES'
+        };
+        return _l[lang];
+    } 
 
     return (
         <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
                 <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                    <Avatar alt={user.name} src="/static/images/avatar/2.jpg" />
+                <ReactCountryFlag countryCode={localeToCountry(i18n.language)} />
+                    <Typography
+                        variant="h6"
+                        noWrap
+                        component="div"
+                        sx={{color:'white', flexGrow: 1, marginLeft:2, marginRight:2}}>{i18n.language}</Typography>
                 </IconButton>
             </Tooltip>
             <Menu
@@ -71,8 +75,9 @@ const UserMenu = (props) => {
                 open={Boolean(anchorElUser)}
                 onClose={handleCloseUserMenu}
             >
-                { user_menu_items.map((item) => (
-                    <MenuItem key={item.title} onClick={() => handleRedirect(item.url)}>
+                {lang_menu_items.map((item) => (
+                    <MenuItem key={item.title} onClick={item.onClick}>
+                        {item.icon ?? item.icon}
                         <Typography textAlign="center">{t(item.title)}</Typography>
                     </MenuItem>
                 ))}
@@ -81,4 +86,4 @@ const UserMenu = (props) => {
     )
 }
 
-export default UserMenu
+export default LocaleMenu
