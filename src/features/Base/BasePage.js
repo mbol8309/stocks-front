@@ -5,11 +5,12 @@ import { useTheme } from '@mui/material/styles';
 import { Route, Routes, Outlet } from "react-router-dom";
 import { Box } from "@mui/system";
 import { drawerWidth } from "../../app/config/globalvariables";
+import { useUser } from "../Auth/UserContext";
 
 
 const BasePage = (props) => {
 
-    const { data } = useUserMe()
+    const { user } = useUser()
     const theme = useTheme();
 
 
@@ -20,9 +21,6 @@ const BasePage = (props) => {
                 xs:`calc(${theme.spacing(7)} + 10px)`,
                 sm:`calc(${theme.spacing(9)} + 10px)`
                 }}}>
-            
-            <p>Name: {data.me.name}</p>
-            <p>Email: {data.me.email}</p>
             <Outlet/>
             </Box>
         </>

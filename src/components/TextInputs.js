@@ -7,6 +7,6 @@ export const TextInputs = styled(TextField, {
     slot: "Wrapper"
 })({
     backgroundColor: '#fff',
-    borderRadius:4,
+    //borderRadius:4,
     margin:5
 })

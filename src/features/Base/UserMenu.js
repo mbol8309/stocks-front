@@ -3,6 +3,7 @@ import { Box } from "@mui/system"
 import React from "react";
 import { useTranslation } from "react-i18next";
 import {useNavigate} from 'react-router-dom';
+import { useUser } from "../Auth/UserContext";
 
 
 const user_menu_items = [
@@ -29,7 +30,7 @@ const user_menu_items = [
 ]
 
 const UserMenu = (props) => {
-    const { user } = props
+    const { user } = useUser()
     const [anchorElUser, setAnchorElUser] = React.useState(null);
     const navigate = useNavigate();
 

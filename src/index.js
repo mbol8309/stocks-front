@@ -8,13 +8,19 @@ import { apollo_auth_client } from './app/apollo';
 import { ApolloProvider } from '@apollo/client';
 import * as serviceWorker from './serviceWorker';
 import './i18n';
+import { ThemeProvider } from '@mui/material/styles';
+import { theme } from './app/config/theme';
+import { CssBaseline } from '@mui/material';
 
 ReactDOM.render(
   <React.StrictMode>
     <ApolloProvider client={apollo_auth_client} >
-      <Suspense fallback={null}>
-        <App />
-      </Suspense>
+      <ThemeProvider theme={theme}>
+      <CssBaseline/>
+        <Suspense fallback={null}>
+          <App />
+        </Suspense>
+      </ThemeProvider>
     </ApolloProvider>
   </React.StrictMode>,
   document.getElementById('root')

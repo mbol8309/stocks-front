@@ -1,29 +1,41 @@
+import { Warehouse } from "@mui/icons-material";
 import { LoginPage } from "../../features/Auth/login";
 import Logout from "../../features/Auth/logout";
 import RegisterPage from "../../features/Auth/register";
 import ProfilePage from "../../features/Profile/ProfilePage"
 import SettingsPage from "../../features/Settings/SettingsPage"
+import WarehousePage from "../../features/Warehouse/WarehousePage";
+
+//icons
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import SettingsIcon from '@mui/icons-material/Settings';
 
 import i18n from "../../i18n";
 
 const main_routes = [
     {
-        label: i18n.t('route.profile'),
+        label: 'route.profile',
+        slabel: 'description.profile',
         path: 'profile',
         icon: null,
-        component: ProfilePage
+        component: ProfilePage,
+        sidebar: false
     },
     {
-        label: 'WareStores',
-        path: 'warestores',
-        icon: null,
-        component: ProfilePage
+        label: 'route.warehouse',
+        slabel: 'description.warehouse',
+        path: 'warehouse',
+        icon: <WarehouseIcon/>,
+        component: WarehousePage,
+        sidebar: true,
     },
     {
-        label: 'Settings',
+        label: 'route.settings',
+        slabel: 'description.settings',
         path: 'settings',
-        icon: null,
-        component: SettingsPage
+        icon: <SettingsIcon/>,
+        component: SettingsPage,
+        sidebar: true
     }
 ];
 /*

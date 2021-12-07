@@ -1,6 +1,8 @@
 {
   "route": {
-    "profile": "Perfil"
+    "profile": "Perfil",
+    "settings": "Preferencias",
+    "warehouse": "Almacén"
   },
   "menu": {
     "profile": "Perfil",
@@ -11,5 +13,10 @@
     "logout": "Salir",
     "settings": "Opciones",
     "dashboard": "Inicio"
+  },
+  "description": {
+    "profile": "Accede al perfil",
+    "settings": "Controla las preferencias",
+    "warehouse": "Administración de almacenes"
   }
 }

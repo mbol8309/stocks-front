@@ -13,8 +13,27 @@ import { useTheme, styled } from '@mui/material/styles';
 import { drawerWidth } from "../../app/config/globalvariables";
 import Drawer from "../../components/Drawer";
 import DrawerHeader from "../../components/DrawerHeader";
+import WarehouseIcon from '@mui/icons-material/Warehouse';
+import SettingsIcon from '@mui/icons-material/Settings';
+import { useNavigate } from "react-router";
+import { main_routes } from "../../app/config/routes";
+import { useTranslation } from "react-i18next";
 
-
+const sidebar_links = [
+    {
+        title: 'Warehouses',
+        link: '/warehouses',
+        icon: <WarehouseIcon />
+    },
+    {
+        title: 'div',
+    },
+    {
+        title: 'Settings',
+        link: '/settings',
+        icon: <SettingsIcon />
+    }
+];
 
 const AppBarDrawerButton = (props) => {
     const { handleDrawerOpen, open } = props;
@@ -35,9 +54,35 @@ const AppBarDrawerButton = (props) => {
     )
 }
 
+const SidebarItem = (props) => {
+    const { label, icon, path, handleClick } = props;
+    const { t } = useTranslation('main');
+
+    if (label == 'div') {
+        return (
+            <Divider />
+        )
+    }
+
+    return (
+        <ListItem button onClick={() => handleClick(path)}>
+            <ListItemIcon>
+                {icon}
+            </ListItemIcon>
+            <ListItemText primary={t(label)} secondary={props.slabel ?  t(props.slabel) : ''} />
+        </ListItem>
+    )
+}
+
 const SideBar = (props) => {
 
     const { open, handleDrawerClose, theme } = props;
+    const navigate = useNavigate();
+
+    const handleClick = (link) => {
+        navigate('/' + link);
+        handleDrawerClose();
+    }
 
     return (
         <Drawer variant="permanent" open={open}>
@@ -48,26 +93,14 @@ const SideBar = (props) => {
             </DrawerHeader>
             <Divider />
             <List>
-                {['Inbox', 'Starred', 'Send email', 'Drafts'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+                {
+                    main_routes.filter((r) => r.sidebar).map((item, index) => (
+                        <SidebarItem key={index} {...item} handleClick={handleClick} />
+                    ))
+                }
+
             </List>
-            <Divider />
-            <List>
-                {['All mail', 'Trash', 'Spam'].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>
-                            {index % 2 === 0 ? <InboxIcon /> : <MailIcon />}
-                        </ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
+
         </Drawer>
     )
 }

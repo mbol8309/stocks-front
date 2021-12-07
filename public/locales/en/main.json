@@ -1,6 +1,8 @@
 {
   "route": {
-    "profile": "Profile"
+    "profile": "Profile",
+    "warehouse": "Warehouse",
+    "settings": "Settings"
   },
   "menu": {
     "profile": "Profile",
@@ -11,5 +13,10 @@
       "es": "Spanish",
       "en": "English"
     }
+  },
+  "description": {
+    "warehouse": "Warehouse management",
+    "profile": "Access your profile",
+    "settings": "Control settings"
   }
 }

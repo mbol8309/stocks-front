@@ -16,8 +16,6 @@ const pages = ['Products', 'Pricing', 'Blog'];
 
 
 const Header = (props) => {
-    const { data } = useUserMe()
-    const user = data.me;
 
     const [anchorElNav, setAnchorElNav] = React.useState(null);
     const [sidebarOpen, setSidebarOpen] = React.useState(false);
@@ -43,8 +41,8 @@ const Header = (props) => {
 
 
     return (
-        <><CssBaseline/>
-            <AppBar position="fixed" sidebarOpen={sidebarOpen}>
+        <>
+            <AppBar position="fixed" open={sidebarOpen}>
                 <Container maxWidth="xl">
                     <Toolbar disableGutters>
                         <AppBarDrawerButton open={sidebarOpen} handleDrawerOpen={handleOpenSideBar} theme={theme} />
@@ -74,7 +72,7 @@ const Header = (props) => {
                         </Box>
                         <LocaleMenu />
 
-                        <UserMenu user={user} />
+                        <UserMenu />
                     </Toolbar>
                 </Container>
             </AppBar>
